@@ -54,6 +54,7 @@ func main() {
 	lastScan = time.Now()
 
 	http.HandleFunc("/", homePageHandler)
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
