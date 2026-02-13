@@ -40,7 +40,8 @@ type Chapter struct{
 	Content template.HTML;
 };
 
-// FUNCTIONS
+// ---------- FUNCTIONS
+
 func main(){
 	fmt.Println("Starting the webserver at port :" + port);
 
@@ -66,6 +67,7 @@ func homePageHandler(response http.ResponseWriter, request *http.Request){
 	}
 }
 
+// ---------- loading novels
 func getNovels []Novel(){
 	mutex.RLock();
 	if time.Since(lastScan) < 5*time.Minute {
@@ -116,6 +118,4 @@ func scanNovels ([]Novel, error){
 			title = strings.Title(title);
 		}
 	}
-
-
 }
