@@ -3,17 +3,14 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"html/template" // HTML templating
+	"html/template"
+	"log"
+	"net/http"
+	"os"
+	"path/filepath"
 	"sort"
 	"strconv"
-
-	// File system interface
-	"net/http"      // HTTP server and client
-	"os"            // File operations
-	"path/filepath" // Path manipulation
-	"strings"       // String utilities
-
-	"log"
+	"strings"
 	"sync"
 	"time"
 	// "github.com/gomarkdown/markdown"            // Main markdown package
@@ -36,6 +33,7 @@ type Novel struct {
 	Title        string
 	Description  string
 	Cover        string
+	Author       string
 	Chapters     []Chapter
 	ChapterCount int
 }
@@ -108,17 +106,21 @@ func scanNovels() []Novel {
 		novelPath := filepath.Join("novels", slug)
 		metadataPath := filepath.Join(novelPath, "metadata.json")
 
-		var title, description string
+		var title, description, cover, author string
 
 		if data, err := os.ReadFile(metadataPath); err == nil {
 			var meta struct {
 				Title       string `json:"title"`
 				Description string `json:"description"`
+				Cover       string `json:"cover"`
+				Author      string `json:"author"`
 			}
 
 			if err := json.Unmarshal(data, &meta); err == nil {
 				title = meta.Title
 				description = meta.Description
+				cover = filepath.Join(novelPath, "media", meta.Cover)
+				author = meta.Author
 			}
 		}
 
@@ -126,9 +128,6 @@ func scanNovels() []Novel {
 			title = strings.ReplaceAll(slug, "-", " ")
 			title = strings.ToTitle(title)
 		}
-
-		//Cover:
-		var cover string = filepath.Join(novelPath, "media", "cover.jpg")
 
 		// ---------- Chapters:
 		var chapters []Chapter
@@ -172,6 +171,7 @@ func scanNovels() []Novel {
 			Description:  description,
 			Cover:        cover,
 			Slug:         slug,
+			Author:       author,
 			Chapters:     chapters,
 			ChapterCount: len(chapters),
 		})
@@ -180,6 +180,7 @@ func scanNovels() []Novel {
 		fmt.Println("Title: " + title)
 		fmt.Println("Description: " + description)
 		fmt.Println("slug: " + slug)
+		fmt.Println("Author: " + author)
 		fmt.Println("Cover: " + cover)
 		fmt.Println("ch number: " + strconv.Itoa(len(chapters)))
 		fmt.Println("Chapter list:")

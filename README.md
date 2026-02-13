@@ -12,20 +12,64 @@ if you care enough to read the slop I have written (or more likely you just want
 
 [novels.farima4.space](https://novels.farima4.space)
 
-
-
 ## Rough explanation of how it works:
 
 This project doesn't use a database.
 
-In the root directory of the project is a *novels* folder. inside of it you are supposed to place your novels, each saparated in to a different folder.
-(note: The *novels* folder for now has to stay in the root directory, I might add the ability to point to a different path later, for example *Documents/novels*)
-(note: I will provide an example novel with the project by default to understand it easier)
+In the root directory of the project is a `/novels` folder. inside of it you are supposed to place your novels, each saparated in to a different folder.
 
-How you name the folder doesn't matter but you should keep the folder names the same as the novel names for your own sake.
+- (note: The `/novels` folder for now has to stay in the root directory, I might add the ability to point to a different path later, for example `~/Documents/novels`)
 
-So create a folder *novels/my-first-novel*
+- (note: I will provide an example novel with the project by default to understand it easier)
 
-inside the *my-first-novel* folder the most important file to create is *metadata.json*
+How you name the folder doesn't technically matter but you should keep the folder names the same as the novel names for your own sake.
+
+So create a folder `novels/my-first-novel`.
+
+inside the `my-first-novel` folder the most important file to create is `metadata.json`
+
+the `novels/my-first-novel/metadata.json` should look like this:
+
+```json
+{
+  "title": "Epic Novel Title!",
+  "description": "An amazing and thrilling description that will get everyone hooked immediately!",
+  "author": "farima4",
+  "cover": "cool picture.jpg"
+}
+```
+
+while `title` and `description` are self explanitory, `cover` might be a bit more elusive.
+
+your novel must also have the `media/` subfolder, and `cover` points to a picture inside of the media folder. So the entire path would be `"novels/my-first-novel/media/cool picture.jpg"`
+
+- (note: if not cover is provided or if it doesn't exist, it will fallback to a placeholder in `static/cover.jpg`)
+- (note: I will add more info about file extentions later)
+
+So now we have all the information, we just need to add the chapters and that is quite easy. Chapters are markdown files (.md) and they are placed directly in to the root directory of that novel besides the `metadata.json` (so directly in `novels/my-first-novel`). only 2 rules must be followed:
+
+1. Chapters must follow the following naming convention: `chapter-n.md`, where the `n` should be replaced by the chapter number.
+
+2. The first line of the chapter must look like this: `# [This is the title of the chapter]`. This is so I can grab the title directly from the file and display it on the website
+
+So the `novels` folder should look like this:
+
+```bash
+.
+├── chapter-1.md
+├── chapter-2.md
+├── media
+│   └── 'cool picture.png'
+└── metadata.json
+```
+
+While chapter-1.md should look like
+
+```markdown
+# A new morning, a new beginning!
+
+Farima4's eyelids quivered as the morning sunshine washed accross his sleeping figure
+. . .
+```
 
 **will write the rest of readme later**
