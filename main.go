@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"html/template" // HTML templating
+	"sort"
+	"strconv"
 
 	// File system interface
 	"net/http"      // HTTP server and client
@@ -21,10 +23,11 @@ import (
 
 // GLOBAL VARIABLES
 var (
-	port     = "4040"
-	novels   []Novel
-	mutex    sync.RWMutex
-	lastScan time.Time
+	port      = "4040"
+	novels    []Novel
+	mutex     sync.RWMutex
+	lastScan  time.Time
+	scanDelay = time.Minute * 5
 )
 
 // CUSTOM TYPES
@@ -36,10 +39,10 @@ type Novel struct {
 	Chapters    []Chapter
 }
 
+// all chapters must be named "chapter-n.md" where n is an int
 type Chapter struct {
-	Slug    string
-	Title   string
-	Content template.HTML
+	Number int
+	Title  string
 }
 
 // ---------- FUNCTIONS
@@ -56,6 +59,8 @@ func main() {
 }
 
 func homePageHandler(response http.ResponseWriter, request *http.Request) {
+	getNovels()
+
 	tmpl, err := template.ParseFiles("templates/index.html")
 
 	if err != nil { //desio se error
@@ -72,7 +77,7 @@ func homePageHandler(response http.ResponseWriter, request *http.Request) {
 // ---------- loading novels
 func getNovels() {
 	mutex.RLock()
-	if time.Since(lastScan) < 5*time.Minute {
+	if time.Since(lastScan) < scanDelay {
 		defer mutex.RUnlock()
 		return
 	}
@@ -85,25 +90,23 @@ func getNovels() {
 }
 
 func scanNovels() []Novel {
-	var novels []Novel
+	var tmpnovels []Novel
 
 	entries, err := os.ReadDir("novels")
 	if err != nil {
-		return nil
+		return novels
 	}
 
 	for _, entry := range entries {
-		if entry.IsDir() {
+		if !entry.IsDir() {
 			continue
 		}
-
+		//Slug, Title, Description
 		slug := entry.Name()
 		novelPath := filepath.Join("novels", slug)
 		metadataPath := filepath.Join(novelPath, "metadata.json")
 
 		var title, description string
-
-		title = description // so it compiles, remove later
 
 		if data, err := os.ReadFile(metadataPath); err == nil {
 			var meta struct {
@@ -119,9 +122,69 @@ func scanNovels() []Novel {
 
 		if title == "" {
 			title = strings.ReplaceAll(slug, "-", " ")
-			title = strings.Title(title)
+			title = strings.ToTitle(title)
 		}
+
+		//Cover:
+		var cover string = filepath.Join(novelPath, "media", "cover.jpg")
+
+		// ---------- Chapters:
+		var chapters []Chapter
+
+		chentries, err := os.ReadDir(novelPath)
+		if err != nil {
+			return novels
+		}
+
+		for _, chentry := range chentries {
+			if chentry.IsDir() || !strings.HasSuffix(chentry.Name(), ".md") || !strings.HasPrefix(chentry.Name(), "chapter-") {
+				continue
+			}
+
+			var number string = strings.TrimSuffix(strings.TrimPrefix(chentry.Name(), "chapter-"), ".md")
+
+			var chtitle string
+			content, _ := os.ReadFile(filepath.Join(novelPath, chentry.Name()))
+			lines := strings.SplitN(string(content), "\n", 2)
+
+			if len(lines) > 0 && strings.HasPrefix(lines[0], "# ") {
+				chtitle = strings.TrimPrefix(lines[0], "# ")
+			} else {
+				chtitle = strings.TrimSuffix(chentry.Name(), ".md")
+			}
+
+			n, _ := strconv.Atoi(number)
+			chapters = append(chapters, Chapter{
+				Title:  chtitle,
+				Number: n,
+			})
+		}
+
+		sort.Slice(chapters, func(i, j int) bool {
+			return chapters[i].Number < chapters[j].Number
+		})
+
+		//Finishing the object
+		tmpnovels = append(tmpnovels, Novel{
+			Title:       title,
+			Description: description,
+			Cover:       cover,
+			Slug:        slug,
+			Chapters:    chapters,
+		})
+
+		//debugging
+		fmt.Println("Title: " + title)
+		fmt.Println("Description: " + description)
+		fmt.Println("slug: " + slug)
+		fmt.Println("Cover: " + cover)
+		fmt.Println("ch number: " + strconv.Itoa(len(chapters)))
+		fmt.Println("Chapter list:")
+		for _, ch := range chapters {
+			fmt.Println(strconv.Itoa(ch.Number) + " - " + ch.Title)
+		}
+		fmt.Println("------------------")
 	}
 
-	return novels
+	return tmpnovels
 }
