@@ -16,9 +16,9 @@ if you care enough to read the slop I have written (or more likely you just want
 
 This project doesn't use a database.
 
-In the root directory of the project is a `/novels` folder. inside of it you are supposed to place your novels, each saparated in to a different folder.
+In the root directory of the project is a `novels/` folder. inside of it you are supposed to place your novels, each saparated in to a different folder.
 
-- (note: The `/novels` folder for now has to stay in the root directory, I might add the ability to point to a different path later, for example `~/Documents/novels`)
+- (note: The `novels/` folder for now has to stay in the root directory, I might add the ability to point to a different path later, for example `~/Documents/novels`)
 
 - (note: I will provide an example novel with the project by default to understand it easier)
 
@@ -55,7 +55,7 @@ So now we have all the information, we just need to add the chapters and that is
 So the `novels` folder should look like this:
 
 ```bash
-.
+my-first-novel/
 ├── chapter-1.md
 ├── chapter-2.md
 ├── media
@@ -63,13 +63,17 @@ So the `novels` folder should look like this:
 └── metadata.json
 ```
 
-While chapter-1.md should look like
+While `chapter-1.md` should look like
 
 ```markdown
 # A new morning, a new beginning!
 
-Farima4's eyelids quivered as the morning sunshine washed accross his sleeping figure
+Farima4's eyelids quivered as the morning sunshine washed accross his sleeping figure.
 . . .
 ```
+
+After this you are free to use markdown however you wish, even add tables to your novels if you so wish.
+
+This is also why I have the `media/` folder, so you can freely upload pictures and/or even videos and then link them directly in the markdown file using the following syntax `![Some Alt Text](media/my-world-map-or-something.jpg)` and it will be displayed in the chapter!
 
 **will write the rest of readme later**
