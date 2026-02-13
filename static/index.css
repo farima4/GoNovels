@@ -1,0 +1,83 @@
+#maindiv
+{
+    width: 100vw;
+    height: 100vh;
+    justify-content: space-between;
+    flex-direction: column;
+    display: flex;
+}
+
+#contentdiv
+{
+    flex: 0 0 80%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+}
+
+#storylist
+{
+
+
+    background-color: lightblue;
+    flex: 1;
+    width: 90%;
+    display: grid;                                  /* enable grid */
+    grid-template-columns: repeat(auto-fill, 150px); /* columns of 150px width */
+    grid-auto-rows: 150px;                          /* each row 150px tall */
+    gap: 20px;                                     /* space between items */
+    justify-content: start;                         /* align grid to top-left */
+    padding: 20px;
+    flex: 0 0 85%;
+
+}
+
+#searchdiv
+{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex: 0 0 15%;
+}
+
+#searchbar
+{
+    height: 30px;
+}
+
+#titlediv
+{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex: 0 0 20%;
+}
+
+
+
+/*clase*/
+
+.story
+{
+    background-color: lightcoral;
+    width: 150px;
+    height: 240px;
+    display: block;
+}
+
+.title
+{
+    opacity: 0%;
+}
+
+body{
+
+    align-items: center;
+    margin: 0;
+}
+
+*{
+    border-radius: 20px;
+}
