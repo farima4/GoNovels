@@ -32,11 +32,12 @@ var (
 
 // CUSTOM TYPES
 type Novel struct {
-	Slug        string
-	Title       string
-	Description string
-	Cover       string
-	Chapters    []Chapter
+	Slug         string
+	Title        string
+	Description  string
+	Cover        string
+	Chapters     []Chapter
+	ChapterCount int
 }
 
 // all chapters must be named "chapter-n.md" where n is an int
@@ -53,7 +54,7 @@ func main() {
 	novels = scanNovels()
 	lastScan = time.Now()
 
-	http.HandleFunc("/", homePageHandler)
+	http.HandleFunc("/", homePageHandler) // https://novels.farima4.space/
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
 	log.Fatal(http.ListenAndServe(":"+port, nil))
@@ -69,7 +70,7 @@ func homePageHandler(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	err = tmpl.Execute(response, nil)
+	err = tmpl.Execute(response, novels)
 	if err != nil { //desio se error
 		http.Error(response, err.Error(), http.StatusInternalServerError)
 	}
@@ -167,11 +168,12 @@ func scanNovels() []Novel {
 
 		//Finishing the object
 		tmpnovels = append(tmpnovels, Novel{
-			Title:       title,
-			Description: description,
-			Cover:       cover,
-			Slug:        slug,
-			Chapters:    chapters,
+			Title:        title,
+			Description:  description,
+			Cover:        cover,
+			Slug:         slug,
+			Chapters:     chapters,
+			ChapterCount: len(chapters),
 		})
 
 		//debugging

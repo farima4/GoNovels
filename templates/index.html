@@ -15,14 +15,14 @@
                 <search><input type="search" placeholder="search" id="searchbar"></search>
             </div>
             <div id="storylist">
+                {{range .}}
                 <div class="card">
                     <img>
-                    <span class="novel-title">mrzim crnce</span>
-                    <span class="novel-description">mrzim crnce</span>
-                    <span class="chapter-number">mrzim crnce</span>
+                    <span class="novel-title">{{.Title}}</span>
+                    <span class="novel-description">{{.Description}}</span>
+                    <span class="chapter-number">{{.ChapterCount}} chapters</span>
                 </div>
-                <div class="card"> </div>
-                <div class="card"> </div>
+                {{end}}
             </div>
         </div>
 
