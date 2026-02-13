@@ -41,7 +41,7 @@ the `novels/my-first-novel/metadata.json` should look like this:
 
 while `title` and `description` are self explanitory, `cover` might be a bit more elusive.
 
-your novel must also have the `media/` subfolder, and `cover` points to a picture inside of the media folder. So the entire path would be `"novels/my-first-novel/media/cool picture.jpg"`
+your novel can also have the `media/` subfolder, and `cover` points to a picture exclusively inside of the media folder. So the entire path would be `"novels/my-first-novel/media/cool picture.jpg"`
 
 - (note: if not cover is provided or if it doesn't exist, it will fallback to a placeholder in `static/cover.jpg`)
 - (note: I will add more info about file extentions later)

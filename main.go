@@ -20,11 +20,12 @@ import (
 
 // GLOBAL VARIABLES
 var (
-	port      = "4040"
-	novels    []Novel
-	mutex     sync.RWMutex
-	lastScan  time.Time
-	scanDelay = time.Minute * 5
+	port         = "4040"
+	novels       []Novel
+	mutex        sync.RWMutex
+	lastScan     time.Time
+	scanDelay    = time.Minute * 5
+	defaultCover = "static/cover.png"
 )
 
 // CUSTOM TYPES
@@ -52,8 +53,10 @@ func main() {
 	novels = scanNovels()
 	lastScan = time.Now()
 
-	http.HandleFunc("/", homePageHandler) // https://novels.farima4.space/
+	http.HandleFunc("/", homePageHandler)
+
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	http.Handle("/novels/", http.StripPrefix("/novels/", http.FileServer(http.Dir("novels"))))
 
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
@@ -121,12 +124,18 @@ func scanNovels() []Novel {
 				description = meta.Description
 				cover = filepath.Join(novelPath, "media", meta.Cover)
 				author = meta.Author
+
+				if _, err := os.Stat(cover); err != nil {
+					cover = defaultCover
+				}
 			}
 		}
 
 		if title == "" {
 			title = strings.ReplaceAll(slug, "-", " ")
 			title = strings.ToTitle(title)
+			cover = "/static/cover.png"
+			author = "unavailable"
 		}
 
 		// ---------- Chapters:
