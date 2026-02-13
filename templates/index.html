@@ -12,7 +12,7 @@
     
         <div id="contentdiv">
             <div id="searchdiv"> 
-                <search><input type="search" placeholder="search" id="searchbar"></search>
+                <input type="search" placeholder="search" id="searchbar">
             </div>
             <div id="storylist">
                 {{range .}}
@@ -29,6 +29,38 @@
 
     </div>
     
-    
+    <!--Fuzzy search implementation-->
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
+    <script>
+        // Prepare data from Go template
+        const novelsData = [
+            {{range .}}
+            { title: {{.Title}}, author: {{.Author}}, description: {{.Description}} },
+            {{end}}
+        ];
+        
+        const fuse = new Fuse(novelsData, {
+            keys: ['title', 'author', 'description'],
+            threshold: 0.3,          // 0 = exact, 1 = match anything
+            ignoreLocation: true,    // search whole string, not just beginning
+            ignoreFieldNorm: true,
+        });
+
+        const cards = Array.from(document.querySelectorAll('.card'));
+        const searchBar = document.getElementById("searchbar");
+
+        searchBar.addEventListener('input', function() {
+            const query = this.value.trim();
+            if (query === '') {
+                cards.forEach(c => c.style.display = 'block');
+                return;
+            }
+            const results = fuse.search(query);
+            const resultIds = new Set(results.map(r => r.refIndex)); // assuming novelsData order matches card order
+            cards.forEach((card, idx) => {
+                card.style.display = resultIds.has(idx) ? 'block' : 'none';
+            });
+        });
+    </script>
 </body>
 </html>

@@ -77,3 +77,4 @@ After this you are free to use markdown however you wish, even add tables to you
 This is also why I have the `media/` folder, so you can freely upload pictures and/or even videos and then link them directly in the markdown file using the following syntax `![Some Alt Text](media/my-world-map-or-something.jpg)` and it will be displayed in the chapter!
 
 **will write the rest of readme later**
+Credits to (GentooPegin)[https://github.com/GentooPegin] for making the html templates

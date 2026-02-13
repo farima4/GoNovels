@@ -35,3 +35,4 @@ go.work.sum
 
 novels/*
 !novels/test-novel
+!novels/novel-2
