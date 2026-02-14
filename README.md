@@ -2,6 +2,8 @@
 
 ## **PROJECT IS STILL NOT FUNCTIONAL**
 
+well it technically is but not really
+
 This project is not meant to be a fully flashed out novel hosting service with acounts.
 
 The objective here is to provide a simple way to host your personal novel collection. Be it (ideally) your own, self-written, web-novels or perhaps a collection of some other novels (if you care enough to port it to markdown).

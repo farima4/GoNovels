@@ -20,12 +20,13 @@ import (
 
 // GLOBAL VARIABLES
 var (
-	port         = "4040"
-	novels       []Novel
-	mutex        sync.RWMutex
-	lastScan     time.Time
-	scanDelay    = time.Minute * 5
-	defaultCover = "static/cover.png"
+	port          = "4040"
+	novels        []Novel
+	mutex         sync.RWMutex
+	lastScan      time.Time
+	scanDelay     = time.Minute * 5
+	defaultCover  = "static/cover.png"
+	indexTemplate *template.Template
 )
 
 // CUSTOM TYPES
@@ -35,6 +36,7 @@ type Novel struct {
 	Description  string
 	Cover        string
 	Author       string
+	NovelPath    string
 	Chapters     []Chapter
 	ChapterCount int
 }
@@ -53,6 +55,12 @@ func main() {
 	novels = scanNovels()
 	lastScan = time.Now()
 
+	var err error
+	indexTemplate, err = template.ParseFiles("templates/index.html")
+	if err != nil {
+		log.Fatal("Failed to parse template:", err)
+	}
+
 	http.HandleFunc("/", homePageHandler)
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
@@ -64,14 +72,7 @@ func main() {
 func homePageHandler(response http.ResponseWriter, request *http.Request) {
 	getNovels()
 
-	tmpl, err := template.ParseFiles("templates/index.html")
-
-	if err != nil { //desio se error
-		http.Error(response, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	err = tmpl.Execute(response, novels)
+	err := indexTemplate.Execute(response, novels)
 	if err != nil { //desio se error
 		http.Error(response, err.Error(), http.StatusInternalServerError)
 	}
@@ -181,6 +182,7 @@ func scanNovels() []Novel {
 			Cover:        cover,
 			Slug:         slug,
 			Author:       author,
+			NovelPath:    novelPath,
 			Chapters:     chapters,
 			ChapterCount: len(chapters),
 		})

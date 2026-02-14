@@ -16,7 +16,7 @@
             </div>
             <div id="storylist">
                 {{range .}}
-                <div class="card">
+                <div class="card" data-novel-path="{{.NovelPath}}">
                     <img class="novel-cover" src="{{.Cover}}">
                     <span class="novel-title">{{.Title}}</span>
                     <span class="novel-author">{{.Author}}</span>
@@ -28,7 +28,7 @@
         </div>
 
     </div>
-    
+
     <!--Fuzzy search implementation-->
     <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
     <script>
@@ -61,6 +61,14 @@
                 card.style.display = resultIds.has(idx) ? 'block' : 'none';
             });
         });
+
+        // dynamic links
+        const rootUrl = window.location.origin;
+        cards.forEach((card, idx) => {
+            card.addEventListener("click", function() {
+                window.location.href = rootUrl + "/" + card.dataset.novelPath
+            })
+        })
     </script>
 </body>
 </html>
