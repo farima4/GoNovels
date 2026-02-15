@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>My Novels</title>
-    <link rel="stylesheet" href="../static/index.css"> <!--mozda promjeniti kasnije-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoNovels</title>
+    <!--link rel="stylesheet" href="/static/global.css"-->
+    <link rel="stylesheet" href="/static/index.css">
 </head>
 <body>
     <div id="maindiv">   
@@ -16,7 +18,7 @@
             </div>
             <div id="storylist">
                 {{range .}}
-                <div class="card" data-novel-path="{{.NovelPath}}">
+                <div class="card" data-slug="{{.Slug}}">
                     <img class="novel-cover" src="{{.Cover}}">
                     <span class="novel-title">{{.Title}}</span>
                     <span class="novel-author">{{.Author}}</span>
@@ -66,7 +68,7 @@
         const rootUrl = window.location.origin;
         cards.forEach((card, idx) => {
             card.addEventListener("click", function() {
-                window.location.href = rootUrl + "/" + card.dataset.novelPath
+                window.location.href = rootUrl + "/novel/" + card.dataset.slug
             })
         })
     </script>

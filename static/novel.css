@@ -1,0 +1,20 @@
+#maindiv
+{
+    width: 100vw;
+    max-height: 100vh;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+    background-color: gray;
+}
+
+body{
+
+    align-items: center;
+    margin: 0;
+}
+
+*{
+    border-radius: 20px;
+}

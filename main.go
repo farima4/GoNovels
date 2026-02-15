@@ -20,13 +20,15 @@ import (
 
 // GLOBAL VARIABLES
 var (
-	port          = "4040"
-	novels        []Novel
-	mutex         sync.RWMutex
-	lastScan      time.Time
-	scanDelay     = time.Minute * 5
-	defaultCover  = "static/cover.png"
+	port         = "4040"
+	novels       []Novel
+	mutex        sync.RWMutex
+	lastScan     time.Time
+	scanDelay    = time.Minute * 5 // should be 5 minutes,
+	defaultCover = "/static/cover.png"
+
 	indexTemplate *template.Template
+	novelTemplate *template.Template
 )
 
 // CUSTOM TYPES
@@ -61,7 +63,13 @@ func main() {
 		log.Fatal("Failed to parse template:", err)
 	}
 
+	novelTemplate, err = template.ParseFiles("templates/novel.html")
+	if err != nil {
+		log.Fatal("Failed to parse template:", err)
+	}
+
 	http.HandleFunc("/", homePageHandler)
+	http.HandleFunc("/novel/", novelPageHandler)
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.Handle("/novels/", http.StripPrefix("/novels/", http.FileServer(http.Dir("novels"))))
@@ -73,6 +81,32 @@ func homePageHandler(response http.ResponseWriter, request *http.Request) {
 	getNovels()
 
 	err := indexTemplate.Execute(response, novels)
+	if err != nil { //desio se error
+		http.Error(response, err.Error(), http.StatusInternalServerError)
+	}
+}
+
+func novelPageHandler(response http.ResponseWriter, reqest *http.Request) {
+	slug := strings.TrimPrefix(reqest.URL.Path, "/novel/")
+	if slug == "" {
+		http.NotFound(response, reqest)
+		return
+	}
+
+	var found *Novel
+	for i := range novels {
+		if novels[i].Slug == slug {
+			found = &novels[i]
+			break
+		}
+	}
+
+	if found == nil {
+		http.NotFound(response, reqest)
+		return
+	}
+
+	err := novelTemplate.Execute(response, found)
 	if err != nil { //desio se error
 		http.Error(response, err.Error(), http.StatusInternalServerError)
 	}
@@ -123,7 +157,7 @@ func scanNovels() []Novel {
 			if err := json.Unmarshal(data, &meta); err == nil {
 				title = meta.Title
 				description = meta.Description
-				cover = filepath.Join(novelPath, "media", meta.Cover)
+				cover = "/novels/" + slug + "/media/" + meta.Cover
 				author = meta.Author
 
 				if _, err := os.Stat(cover); err != nil {
