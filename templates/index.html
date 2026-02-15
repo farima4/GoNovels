@@ -17,6 +17,7 @@
                 <input type="search" placeholder="search" id="searchbar">
             </div>
             <div id="storylist">
+                <!--
                 {{range .}}
                 <div class="card" data-slug="{{.Slug}}">
                     <img class="novel-cover" src="{{.Cover}}">
@@ -26,6 +27,11 @@
                     <span class="chapter-number">{{.ChapterCount}} chapters</span>
                 </div>
                 {{end}}
+                -->
+                <div class="card" >
+                    <img class="novel-cover" src="../static/cover.png">
+                    <span class="novel-title">{{.Title}}</span>
+                </div>
             </div>
         </div>
 
