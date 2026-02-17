@@ -18,6 +18,7 @@
             </div>
             <div id="storylist">
                 
+                <!--
                 {{range .}}
                 <div class="card" data-slug="{{.Slug}}">
                     <img class="novel-cover" src="{{.Cover}}">
@@ -26,23 +27,26 @@
                     <span class="novel-description">{{.Description}}</span>
                     <span class="chapter-number">{{.ChapterCount}} chapters</span>
                 </div>
-                {{end}}
-                
-                <!--
-                <div class="card" >
+                {{end}}-->
+
+                <div class="card" data-slug="{{.Slug}}">
                     <img class="novel-cover" src="../static/cover.png">
                     <div class="card-text">
-                        <span class="novel-title">titleeeee</span>
+                        <span class="novel-title">{{.Title}}</span>
+                        <span class="novel-author">{{.Author}}</span>
+                        <span class="chapter-number">Ch.#{{.ChapterCount}}</span>
                     </div>
                     
                 </div>
-                <div class="card" >
+                <div class="card" data-slug="{{.Slug}}">
                     <img class="novel-cover" src="../static/cover.png">
                     <div class="card-text">
-                        <span class="novel-title">titleeeee</span>
+                        <span class="novel-title">{{.Title}}</span>
+                        <span class="novel-author">{{.Author}}</span>
+                        <span class="chapter-number">Ch.#{{.ChapterCount}} </span>
                     </div>
                     
-                </div> -->
+                </div>
             </div>
         </div>
 

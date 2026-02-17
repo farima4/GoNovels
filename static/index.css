@@ -68,65 +68,53 @@
 }
 
 
-
 /*classes*/
 
 .card
 {
-    background-color: lightcoral;
     width: 150px;
     height: 240px;
-    display: flex;
-    flex-direction: column;
+    position: relative;
+    overflow: hidden;
     cursor: pointer;
-<<<<<<< HEAD
+
 }
 
 .novel-title
 {
-    opacity: 50%;
+    font-weight: bold;
 }
-
-
-=======
-    transition: width 0.4s ease;
-    display: flex;
-    position: relative;
-    overflow: hidden;
-
-}
->>>>>>> b7558a497a9ca909b7c2ec8e4a0b2737c0b62bf1
 
 .card .novel-cover {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: all 0.4s ease;
-    z-index: 1;   /* image layer */
+    transition: filter 0.4s ease, transform 0.4s ease;
 }
 
 .card .card-text {
     position: absolute;
-    left: 170px;
-    top: 50%;
-    transform: translateY(-50%);
-    opacity: 0;
+    inset: 0; /* shorthand for top:0 left:0 right:0 bottom:0 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    padding: 15px;
     color: white;
-    transition: opacity 0.3s ease;
-    z-index: 2;   /* ABOVE image */
+
+    background: rgba(0, 0, 0, 0.4); /* dark overlay */
+    opacity: 0;
+    transition: opacity 0.4s ease;
+
 }
 
 /* HOVER EFFECT */
 
-.card:hover {
-    width: 400px; /* sirina tokom hover-a (promijeni kako odgovoara)*/
-}
-
 .card:hover .novel-cover{
-    width: 150px;
+    filter: blur(4px);
+    transform: scale(1.05); /* slight zoom for nice effect */
 }
 
 .card:hover .card-text {
