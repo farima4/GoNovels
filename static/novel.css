@@ -1,20 +1,143 @@
-#maindiv
-{
-    width: 100vw;
-    max-height: 100vh;
-    justify-content: space-between;
+#maindiv{
+    max-width: 800px;
+    height: 100vh;
+    margin: auto;
+    justify-content: start;
     align-items: center;
     flex-direction: column;
     display: flex;
-    background-color: gray;
+    background-color: white;
+    border-radius: 0px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
-body{
+#novel{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: 300px;
+    background-color: aquamarine;  
+}
 
+#novel-cover{
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    border: blue 2px solid;
+}
+
+#novel-info{
+    width: 70%;
+}
+
+#novel-description{
+    background-color: rosybrown;
+    height: 130px;
+    overflow-y: auto;
+    margin-right: 30px;
+    padding: 10px;
+
+    scrollbar-width: thin;
+    scrollbar-color: #888 transparent;
+}
+
+#chapters{
+    background-color: cornflowerblue;
+    margin-top: 20px;
+    width: 100%;
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+
+#chapters h2{
+    width: 95%;
+}
+
+#chapter-box{
+    background-color: pink;
+    width: 95%;
+    flex: 1;
+    margin-bottom: 20px;
+    border: blue 2px solid;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    row-gap: 5px;
+
+    overflow-y: auto;
+
+    scrollbar-width:none;
+    scrollbar-color: #888 transparent;
+}
+
+.chapter{
+    width: 97%;
+    height: fit-content;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: blueviolet;
+    border: blue 2px solid;
+}
+
+.chapter span{
+    font-size: large;
+    color: white;
+    margin-left: 10px;
+}
+
+html, body{
+    height: 100%;
     align-items: center;
     margin: 0;
+    background-color: whitesmoke;
 }
 
 *{
     border-radius: 20px;
+}
+
+
+/* WebKit */
+#novel-description::-webkit-scrollbar {
+    width: 8px;
+}
+#novel-description::-webkit-scrollbar-track {
+    background: transparent
+}
+#novel-description::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+#novel-description::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+#novel-description::-webkit-scrollbar-button {
+    display: none;  /* hides the up/down buttons */
+}
+
+#chapter-box::-webkit-scrollbar {
+    width: 8px;
+}
+#chapter-box::-webkit-scrollbar-track {
+    background: transparent
+}
+#chapter-box::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+#chapter-box::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+#chapter-box::-webkit-scrollbar-button {
+    display: none;  /* hides the up/down buttons */
 }

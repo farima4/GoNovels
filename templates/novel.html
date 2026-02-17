@@ -3,30 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/static/global.css">
-  <!--link rel="stylesheet" href="/static/novel.css"-->
+  <!--<link rel="stylesheet" href="/static/global.css">-->
+  <link rel="stylesheet" href="/static/novel.css">
   <title>{{.Title}}</title>
 </head>
 <body>
   <div id="maindiv">
 	<div id="novel">
 		<div id="novel-cover">
-			<img class="novel-cover" src="{{.Cover}}">
+			<img class="novel-cover" src="../static/cover.png">
 		</div>
 		<div id="novel-info">
-			<h1 class="novel-title">{{.Title}}</h1>
-            <span class="novel-author">By {{.Author}}</span>
-            <p class="novel-description">{{.Description}}</p>
+			<h1 id="novel-title">{{.Title}}</h1>
+            <span id="novel-author">By {{.Author}}</span>
+            <p id="novel-description">{{.Description}}</p>
 		</div>
 	</div>
 	<div id="chapters">
 		<h2>{{.ChapterCount}} Chapters:</h2>
 		<div id="chapter-box">
-			<ul>
+			<!--<ul>
 				{{range .Chapters}}
 				<li><a href="/novel/{{$.Slug}}/{{.Number}}">{{.Title}}</a></li>	
 				{{end}}
-			</ul>
+			</ul>-->
+			<br>
+			{{range .Chapters}}
+			<div class="chapter" data-link="/novel/{{$.Slug}}/{{.Number}}">
+				<span>Chapter {{.Number}} - {{.Title}}</span>
+			</div>
+			{{end}}
+			<br>
 		</div>
 	</div>
   </div>
