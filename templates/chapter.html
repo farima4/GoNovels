@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{.Novel.Title}} - {{.Chapter.Number}}</title>
+    <link rel="stylesheet" href="/static/chapter.css">
+</head>
+<body>
+    <div id="maindiv">
+        <h1>{{.Chapter.Title}}</h1>
+        <div class="chapter-content">
+            {{.Chapter.Content}}
+        </div>
+        <nav>
+            <!-- Previous/next links, back to novel, etc. -->
+        </nav>
+    </div>
+</body>
+</html>

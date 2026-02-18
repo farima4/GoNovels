@@ -12,10 +12,11 @@ import (
 	"strconv"
 	"strings"
 	"sync"
-	"time"
-	// "github.com/gomarkdown/markdown"            // Main markdown package
-	// "github.com/gomarkdown/markdown/html"       // HTML renderer
-	// "github.com/gomarkdown/markdown/parser"     // Markdown parser
+	"time" // Main markdown package
+
+	"github.com/gomarkdown/markdown"
+	"github.com/gomarkdown/markdown/html"   // HTML renderer
+	"github.com/gomarkdown/markdown/parser" // Markdown parser
 )
 
 // GLOBAL VARIABLES
@@ -24,11 +25,15 @@ var (
 	novels       []Novel
 	mutex        sync.RWMutex
 	lastScan     time.Time
-	scanDelay    = time.Minute * 5 // should be 5 minutes,
+	scanDelay    = time.Minute * 5 // 5 minutes by default
 	defaultCover = "/static/cover.png"
 
-	indexTemplate *template.Template
-	novelTemplate *template.Template
+	indexTemplate   *template.Template
+	novelTemplate   *template.Template
+	chapterTemplate *template.Template
+
+	mdParser   *parser.Parser
+	mdRenderer *html.Renderer
 )
 
 // CUSTOM TYPES
@@ -45,8 +50,9 @@ type Novel struct {
 
 // all chapters must be named "chapter-n.md" where n is an int
 type Chapter struct {
-	Number int
-	Title  string
+	Number  int
+	Title   string
+	Content template.HTML
 }
 
 // ---------- FUNCTIONS
@@ -54,9 +60,11 @@ type Chapter struct {
 func main() {
 	fmt.Println("Starting the webserver at port :" + port)
 
+	// Initial scan
 	novels = scanNovels()
 	lastScan = time.Now()
 
+	// loading templates
 	var err error
 	indexTemplate, err = template.ParseFiles("templates/index.html")
 	if err != nil {
@@ -68,12 +76,25 @@ func main() {
 		log.Fatal("Failed to parse template:", err)
 	}
 
+	chapterTemplate, err = template.ParseFiles("templates/chapter.html")
+	if err != nil {
+		log.Fatal("Failed to parse template:", err)
+	}
+
+	// initializing the parser and renderer
+
+	htmlFlags := html.CommonFlags | html.HrefTargetBlank
+	opts := html.RendererOptions{Flags: htmlFlags}
+	mdRenderer = html.NewRenderer(opts)
+
+	// handling http requests
 	http.HandleFunc("/", homePageHandler)
 	http.HandleFunc("/novel/", novelPageHandler)
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.Handle("/novels/", http.StripPrefix("/novels/", http.FileServer(http.Dir("novels"))))
 
+	// starting server
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
 
@@ -87,7 +108,16 @@ func homePageHandler(response http.ResponseWriter, request *http.Request) {
 }
 
 func novelPageHandler(response http.ResponseWriter, reqest *http.Request) {
-	slug := strings.TrimPrefix(reqest.URL.Path, "/novel/")
+	parts := strings.Split(strings.Trim(reqest.URL.Path, "/"), "/")
+	slug := parts[1]
+
+	//Handles chapters
+	if len(parts) == 4 && parts[2] == "chapter" { // "novel/some-name/chapter/n" where n is a number
+		chapterPageHandler(response, reqest, slug, parts[3])
+		return
+	}
+
+	//Continues if it isn't a chapter
 	if slug == "" {
 		http.NotFound(response, reqest)
 		return
@@ -107,9 +137,75 @@ func novelPageHandler(response http.ResponseWriter, reqest *http.Request) {
 	}
 
 	err := novelTemplate.Execute(response, found)
-	if err != nil { //desio se error
+	if err != nil {
 		http.Error(response, err.Error(), http.StatusInternalServerError)
 	}
+}
+
+func chapterPageHandler(response http.ResponseWriter, reqest *http.Request, slug string, num string) {
+	filepath := filepath.Join("novels", slug, "chapter-"+num+".md")
+	content, err := os.ReadFile(filepath)
+
+	if err != nil {
+		http.NotFound(response, reqest)
+		return
+	}
+
+	// Split into first line and the rest
+	parts := strings.SplitN(string(content), "\n", 2)
+	var mdContent []byte
+	if len(parts) == 2 && strings.HasPrefix(parts[0], "# ") {
+		// First line is a heading – skip it
+		mdContent = []byte(parts[1])
+	} else {
+		// No heading or unexpected format – keep whole file
+		mdContent = content
+	}
+
+	// Convert to HTML without the duplicate title
+	htmlContent := markdownToHTML(mdContent)
+
+	var found bool = false
+	var targetNovel *Novel
+	for i := range novels {
+		if novels[i].Slug == slug {
+			targetNovel = &novels[i]
+			found = true
+			break
+		}
+	}
+	if !found {
+		http.NotFound(response, reqest)
+		return
+	}
+
+	chnum, err := strconv.Atoi(num)
+	if err != nil {
+		http.NotFound(response, reqest)
+		return
+	}
+
+	chapter := Chapter{
+		Number:  chnum,
+		Title:   targetNovel.Chapters[chnum-1].Title, // from novel.Chapters list
+		Content: htmlContent,
+	}
+
+	// Execute chapter template with this chapter data
+	err = chapterTemplate.Execute(response, map[string]interface{}{
+		"Novel":   targetNovel,
+		"Chapter": chapter,
+	})
+}
+
+// ---------- parsing markdown
+func markdownToHTML(md []byte) template.HTML {
+	extensions := parser.CommonExtensions | parser.AutoHeadingIDs
+	mdParser = parser.NewWithExtensions(extensions)
+
+	doc := mdParser.Parse(md)
+	htmlContent := markdown.Render(doc, mdRenderer)
+	return template.HTML(htmlContent)
 }
 
 // ---------- loading novels

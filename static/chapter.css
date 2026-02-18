@@ -1,0 +1,22 @@
+html, body{
+    height: 100%;
+    align-items: center;
+    margin: 0;
+    background-color: whitesmoke;
+}
+
+*{
+    border-radius: 20px;
+}
+
+#maindiv{
+    max-width: 800px;
+    height: 100vh;
+    margin: auto;
+    align-items: start;
+    flex-direction: column;
+    display: flex;
+    background-color: white;
+    border-radius: 0px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}

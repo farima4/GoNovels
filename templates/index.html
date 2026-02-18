@@ -29,6 +29,7 @@
                 </div>
                 {{end}}-->
 
+                {{range .}}
                 <div class="card" data-slug="{{.Slug}}">
                     <img class="novel-cover" src="../static/cover.png">
                     <div class="card-text">
@@ -36,17 +37,8 @@
                         <span class="novel-author">{{.Author}}</span>
                         <span class="chapter-number">Ch.#{{.ChapterCount}}</span>
                     </div>
-                    
                 </div>
-                <div class="card" data-slug="{{.Slug}}">
-                    <img class="novel-cover" src="../static/cover.png">
-                    <div class="card-text">
-                        <span class="novel-title">{{.Title}}</span>
-                        <span class="novel-author">{{.Author}}</span>
-                        <span class="chapter-number">Ch.#{{.ChapterCount}} </span>
-                    </div>
-                    
-                </div>
+                {{end}}
             </div>
         </div>
 
