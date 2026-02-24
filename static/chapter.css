@@ -20,3 +20,16 @@ html, body{
     border-radius: 0px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
+
+#maindiv p{
+    margin: 10px;
+}
+
+p{
+    max-width: 100%;
+}
+
+img{
+    max-width: 90%;
+    margin: auto;
+}

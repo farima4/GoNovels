@@ -121,13 +121,3 @@
     opacity: 1;
 }
 
-/* General */
-body{
-
-    align-items: center;
-    margin: 0;
-}
-
-*{
-    border-radius: 20px;
-}

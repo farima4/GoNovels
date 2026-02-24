@@ -96,17 +96,6 @@
     margin-left: 10px;
 }
 
-html, body{
-    height: 100%;
-    align-items: center;
-    margin: 0;
-    background-color: whitesmoke;
-}
-
-*{
-    border-radius: 20px;
-}
-
 
 /* WebKit */
 #novel-description::-webkit-scrollbar {

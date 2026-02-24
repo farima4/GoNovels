@@ -109,11 +109,25 @@ func homePageHandler(response http.ResponseWriter, request *http.Request) {
 
 func novelPageHandler(response http.ResponseWriter, reqest *http.Request) {
 	parts := strings.Split(strings.Trim(reqest.URL.Path, "/"), "/")
+
+	/*
+		println("---")
+		for _, i := range parts {
+			println(i)
+		}
+		println("---")
+	*/
+
 	slug := parts[1]
 
-	//Handles chapters
-	if len(parts) == 4 && parts[2] == "chapter" { // "novel/some-name/chapter/n" where n is a number
-		chapterPageHandler(response, reqest, slug, parts[3])
+	//Handles chapter and media requests in chapters
+	if len(parts) == 4 {
+		if strings.Contains(parts[3], ".") { //checks if it is a file
+			chapterMediaHandler(response, reqest, slug, parts[3])
+		} else { //otherwise it is a chapter
+			chapterPageHandler(response, reqest, slug, parts[3])
+		}
+
 		return
 	}
 
@@ -198,6 +212,13 @@ func chapterPageHandler(response http.ResponseWriter, reqest *http.Request, slug
 	})
 }
 
+func chapterMediaHandler(response http.ResponseWriter, reqest *http.Request, slug string, media string) {
+	filepath := filepath.Join("novels", slug, "media", media)
+	//println(filepath)
+
+	http.ServeFile(response, reqest, filepath)
+}
+
 // ---------- parsing markdown
 func markdownToHTML(md []byte) template.HTML {
 	extensions := parser.CommonExtensions | parser.AutoHeadingIDs
@@ -265,7 +286,6 @@ func scanNovels() []Novel {
 		if title == "" {
 			title = strings.ReplaceAll(slug, "-", " ")
 			title = strings.ToTitle(title)
-			cover = "/static/cover.png"
 			author = "unavailable"
 		}
 

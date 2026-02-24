@@ -1,4 +1,7 @@
 # The beginning
+
 --
 
-One **sunny** day, *Sunny* woke up!
+One **sunny** day, _Sunny_ woke up!
+
+![cat](cat.jpg)
