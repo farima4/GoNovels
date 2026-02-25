@@ -55,7 +55,7 @@
         ];
         
         const fuse = new Fuse(novelsData, {
-            keys: ['title', 'author', 'description'],
+            keys: ['title', 'author'], // can also add 'description' if you want to
             threshold: 0.3,          // 0 = exact, 1 = match anything
             ignoreLocation: true,    // search whole string, not just beginning
             ignoreFieldNorm: true,
