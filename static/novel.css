@@ -23,25 +23,30 @@
 }
 
 #novel-cover{
+    flex: 0.3;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: auto;
-    border: blue 2px solid;
 
     img{
+        border: blue 2px solid;
+        object-fit: cover;
         width: 150px;
         height: 240px;
     }
 }
 
 #novel-info{
-    width: 70%;
+    flex: 0.7;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
 }
 
 #novel-description{
     background-color: rosybrown;
-    height: 130px;
+    max-height: 50%;
     overflow-y: auto;
     margin-right: 30px;
     padding: 10px;
@@ -87,7 +92,7 @@
 
 .chapter{
     width: 97%;
-    height: fit-content;
+    height: 1rem;
     padding-top: 10px;
     padding-bottom: 10px;
     background-color: blueviolet;

@@ -26,9 +26,9 @@ Create [links](https://markdowncheatsheet.com) and embed images:
 
 ### Code
 
-Inline code: `console.log('Hello World!')`
+Inline code: `console.log('Hello World!')` js like that!
 
-long inline `liquam tenetur repellat! Exercitationem, eos autem harum velit asperiores eveniet sit dolor in, reiciendis nam impedit, laboriosam architecto repellat iusto deleniti? Voluptate accusamus obcaecati eius quidem, reiciendis animi pariatur. Laudantium quam fugit eligendi, deleniti alias sint necessitatibus ducimus debitis consequatur voluptate optio in, placeat non odit molestias, ex delectus mollitia nemo officia natus facilis voluptatibus velit? Debitis voluptas voluptates sunt deleniti voluptatibus ab voluptatem officiis sapiente, dicta minima ipsum fugit vero mollitia distinctio omnis, nulla adipisci dolore,`
+long inline `jliquam tenetur repellat! Exercitationem, eos autem harum velit asperiores eveniet sit dolor in, reiciendis nam impedit, laboriosam architecto repellat iusto deleniti? Voluptate accusamus obcaecati eius quidem, reiciendis animi pariatur. Laudantium quam fugit eligendi, deleniti alias sint necessitatibus ducimus debitis consequatur voluptate optio in, placeat non odit molestias, ex delectus mollitia nemo officia natus facilis voluptatibus velit? Debitis voluptas voluptates sunt deleniti voluptatibus ab voluptatem officiis sapiente, dicta minima ipsum fugit vero mollitia distinctio omnis, nulla adipisci dolore,` yyea
 
 ```javascript
 function greetUser(name) {
