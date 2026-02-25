@@ -38,6 +38,10 @@ nav{
     height: 50px;
 }
 
+.chapter-content{
+    width: 100%;
+}
+
 /*
     Markdown css support
 */

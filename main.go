@@ -274,13 +274,14 @@ func scanNovels() []Novel {
 			if err := json.Unmarshal(data, &meta); err == nil {
 				title = meta.Title
 				description = meta.Description
-				var coverPath = "/novel/" + slug + "/media/" + meta.Cover
+				var coverPath = "novels/" + slug + "/media/" + meta.Cover
 				author = meta.Author
 
 				if _, err := os.Stat(coverPath); err != nil {
+					println("cover error at" + coverPath + ", using default")
 					cover = defaultCover
 				} else {
-					cover = meta.Cover
+					cover = "/novel/" + slug + "/chapter/" + meta.Cover
 				}
 			}
 		}

@@ -23,13 +23,16 @@
 }
 
 #novel-cover{
-    width: fit-content;
-    height: fit-content;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: auto;
     border: blue 2px solid;
+
+    img{
+        width: 150px;
+        height: 240px;
+    }
 }
 
 #novel-info{
