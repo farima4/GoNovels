@@ -199,9 +199,23 @@ func chapterPageHandler(response http.ResponseWriter, reqest *http.Request, slug
 		return
 	}
 
+	found = false
+	var targetChapter *Chapter
+	for i := range targetNovel.Chapters {
+		if targetNovel.Chapters[i].Number == chnum {
+			targetChapter = &targetNovel.Chapters[i]
+			found = true
+			break
+		}
+	}
+	if !found {
+		http.NotFound(response, reqest)
+		return
+	}
+
 	chapter := Chapter{
 		Number:  chnum,
-		Title:   targetNovel.Chapters[chnum-1].Title, // from novel.Chapters list
+		Title:   targetChapter.Title, // from novel.Chapters list
 		Content: htmlContent,
 	}
 

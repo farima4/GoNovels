@@ -13,9 +13,9 @@
 <body>
     <nav>
         <div id="navdiv">
-            <input type="button" value="Previous">
+            <input class="navbutton" id="previous-button" type="button" value="Previous">
             <span id="chapter-info">{{.Novel.Title}} - Chapter {{.Chapter.Number}}</span>
-            <input type="button" value="Next">
+            <input class="navbutton" id="next-button" type="button" value="Next">
         </div>
     </nav>
     <div id="maindiv">
@@ -24,8 +24,49 @@
             <hr>
             {{.Chapter.Content}}
         </div>
-        
     </div>
+
+    <script>
+        let prevButton = document.getElementById("previous-button")
+        let nextButton = document.getElementById("next-button")
+        // there is a chance that one chapter may be missing. for the reason we must make this more fullproof
+        let chnum = {{.Chapter.Number}}
+        
+        let chapters = {{.Novel.Chapters}}
+
+        let chind = -1;
+        for(let i = 0; i < {{.Novel.ChapterCount}}; i++)
+        {
+            if(chapters[i].Number === chnum)
+            {
+                chind = i;
+                break;
+            }
+        }
+
+        if (chind === -1) {
+            window.alert("Something went wrong and the chapter couldn't be located")
+        }
+
+        const rootUrl = window.location.origin;
+
+        if (chind === 0) {
+            prevButton.disabled = true
+        } else {
+            prevButton.addEventListener("click", function () {
+                window.location.href = rootUrl + "/novel/{{.Novel.Slug}}/chapter/" + chapters[chind - 1].Number
+            })
+        }
+        
+        if (chind === {{.Novel.ChapterCount}} - 1)
+        {
+            nextButton.disabled = true
+        } else {
+            nextButton.addEventListener("click", function () {
+                window.location.href = rootUrl + "/novel/{{.Novel.Slug}}/chapter/" + chapters[chind + 1].Number
+            })
+        }
+    </script>
 </body>
 </html>
 

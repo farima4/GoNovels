@@ -76,7 +76,9 @@ Farima4's eyelids quivered as the morning sunshine washed accross his sleeping f
 
 After this you are free to use markdown however you wish, even add tables to your novels if you so wish.
 
-This is also why I have the `media/` folder, so you can freely upload pictures and/or even videos and then link them directly in the markdown file using the following syntax `![Some Alt Text](media/my-world-map-or-something.jpg)` and it will be displayed in the chapter!
+This is also why I have the `media/` folder, so you can freely upload pictures and/or even videos and then link them directly in the markdown file using the following syntax `![Some Alt Text](my-world-map-or-something.jpg)` and it will be displayed in the chapter!
+
+- (note: don't specify the exact path to the image or it won't work. it will by default look in to that novel's `media` folder.)
 
 **will write the rest of readme later**
 Credits to (GentooPegin)[https://github.com/GentooPegin] for making the html templates

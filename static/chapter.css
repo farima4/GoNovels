@@ -15,7 +15,7 @@
     padding: 10px;
 }
 
-
+/* NAV Bar*/
 nav{
     border-radius: 0px;
     position: sticky;
@@ -23,19 +23,33 @@ nav{
     background-color: cadetblue;
     z-index: 100;
     display: flex;
+
+    color: white;
 }
 
 #navdiv{
     height: 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 10px;
+    border-radius: 0px;
 }
 
-.chapter-content{
-    width: 100%;
+.navbutton{
+    cursor: pointer;
+    width: 5rem;
+    height: 2rem;
 }
 
 /*
     Markdown css support
 */
+.chapter-content{
+    width: 100%;
+}
 
 #maindiv h1{
     margin-left: auto;
