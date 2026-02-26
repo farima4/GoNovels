@@ -1,8 +1,8 @@
 
 #maindiv{
     max-width: 800px;
+    min-height: 100vh;
     height: fit-content;
-    min-height: 100%;
     margin: auto;
     align-items: start;
     justify-content: start;

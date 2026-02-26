@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/static/global.css">
   <link rel="stylesheet" href="/static/novel.css">
+  
   <title>{{.Title}}</title>
 </head>
 <body>
@@ -38,13 +39,15 @@
 	</div>
   </div>
 
-  <script>
-	const rootUrl = window.location.origin;
-	Array.from(document.querySelectorAll(".chapter")).forEach((ch, idx) => {
-		ch.addEventListener("click", function () {
-			window.location.href = rootUrl + ch.dataset.link
+  <!--Scripts-->
+	<script src="/static/global.js"></script>
+	<script>
+		const rootUrl = window.location.origin;
+		Array.from(document.querySelectorAll(".chapter")).forEach((ch, idx) => {
+			ch.addEventListener("click", function () {
+				window.location.href = rootUrl + ch.dataset.link
+			})
 		})
-	})
-  </script>
+	</script>
 </body>
 </html>
