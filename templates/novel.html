@@ -16,7 +16,7 @@
 		</div>
 		<div id="novel-info">
 			<h1 id="novel-title">{{.Title}}</h1>
-            <span id="novel-author">By {{.Author}}</span>
+            <span id="novel-author">By <span>{{.Author}}</span></span>
             <p id="novel-description">{{.Description}}</p>
 		</div>
 	</div>
@@ -28,13 +28,11 @@
 				<li><a href="/novel/{{$.Slug}}/{{.Number}}">{{.Title}}</a></li>	
 				{{end}}
 			</ul>-->
-			<br>
 			{{range .Chapters}}
 			<div class="chapter" data-link="/novel/{{$.Slug}}/chapter/{{.Number}}">
 				<span>Chapter {{.Number}} - {{.Title}}</span>
 			</div>
 			{{end}}
-			<br>
 		</div>
 	</div>
   </div>

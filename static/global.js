@@ -3,14 +3,14 @@
 // Icl deepseek did everything I just patched it up 🥀
 function background() {
     // ---------- CONFIGURATION ----------
-    const darkRGB = [0, 0, 40];        // base dark blue
-    const purpleRGB = [30, 0, 50];      // peak purple (still dark)
+    const mainRGB = [25, 100, 255];        // base dark blue
+    const secondRGB = [0, 0, 30];      // peak purple (still dark)
     const baseFreq = 0.0025;              // extremely low = huge patches
     const numOctaves = 1;                 // 1 is smoothest; can go to 2 for slight texture
     // -----------------------------------
 
     // Compute the color matrix coefficients for:
-    // output = darkRGB + noise * (purpleRGB - darkRGB)
+    // output = mainRGB + noise *  secondRGB - mainRGB)
     function computeRow(low, high) {
         const slope = (high - low) / 255;
         const intercept = low / 255;
@@ -18,9 +18,9 @@ function background() {
         return [slope, 0, 0, intercept, 0];
     }
 
-    const rowR = computeRow(darkRGB[0], purpleRGB[0]);
-    const rowG = computeRow(darkRGB[1], purpleRGB[1]);
-    const rowB = computeRow(darkRGB[2], purpleRGB[2]);
+    const rowR = computeRow(mainRGB[0], secondRGB[0]);
+    const rowG = computeRow(mainRGB[1], secondRGB[1]);
+    const rowB = computeRow(mainRGB[2], secondRGB[2]);
     const rowA = [0, 0, 0, 1, 0];  // preserve alpha
 
     const matrixValues = [

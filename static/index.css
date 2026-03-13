@@ -3,6 +3,11 @@
     height: 100vh;
 }
 
+#titlediv
+{
+    font-size: xx-large;
+}
+
 #contentdiv
 {
     flex: 1;
@@ -11,11 +16,14 @@
     align-items: center;
     flex-direction: column;
     display: flex;
+    gap: 10px;
 }
 
 #storylist
 {
-    background-color: lightblue;
+    border-radius: 20px 20px 0px 0px;
+    background-color: var(--background);
+    box-shadow: 0px 0px 10px 0px var(--primary);
     flex: 1;
     width: 90%;
     grid-template-columns: repeat(auto-fill, 150px); /* columns of 150px width */
@@ -25,7 +33,7 @@
     display: flex;  /*ako uradimo ovako onda se kartice sklanjaju jedna od druge! :>*/
     flex-wrap: wrap;
 
-
+    overflow-y: auto;
     justify-content: flex-start;
 }
 
@@ -39,7 +47,10 @@
 
 #searchbar
 {
-    height: 30px;
+    height: 2rem;
+    padding: 0px 10px;
+    outline: none;
+    font-size: large;
 }
 
 #titlediv

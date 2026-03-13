@@ -8,9 +8,7 @@
     justify-content: start;
     flex-direction: column;
     display: flex;
-    background-color: white;
     border-radius: 0px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 
     padding: 10px;
 }
