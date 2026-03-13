@@ -1,6 +1,9 @@
 #maindiv
 {
     height: 100vh;
+    background-color: transparent;
+    border-radius: 0px;
+    box-shadow: none;
 }
 
 #titlediv
